@@ -6,6 +6,7 @@ import exception.UndefinedVariableException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class MapSymTable implements SymbolTable {
     private final Map<String, Value> symbolTable = new HashMap<>();
@@ -42,6 +43,11 @@ public class MapSymTable implements SymbolTable {
     @Override
     public boolean isDefined(String variableName) {
         return symbolTable.containsKey(variableName);
+    }
+
+    @Override
+    public Set<Map.Entry<String, Value>> entries() {
+        return symbolTable.entrySet();
     }
 
     @Override

@@ -7,4 +7,5 @@ public interface ExecutionStack {
     void push(Statement statement);
     Statement pop() throws EmptyExecutionStackException;
     boolean isEmpty();
+    Iterable<Statement> topToBottom();
 }

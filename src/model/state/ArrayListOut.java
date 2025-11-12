@@ -14,6 +14,11 @@ public class ArrayListOut implements Out {
     }
 
     @Override
+    public Iterable<Value> values() {
+        return values;
+    }
+
+    @Override
     public String toString() {
         return values.toString();
     }

@@ -7,6 +7,7 @@ import model.statement.*;
 import model.type.Type;
 import model.value.BoolValue;
 import model.value.IntValue;
+import model.value.StringValue;
 
 public class Examples {
     private Examples() {}
@@ -66,6 +67,34 @@ public class Examples {
                                                 new AssignStmt("v", new ValueExp(new IntValue(3)))
                                             ),
                                             new PrintStmt(new VarExp("v")
+                                        )
+                                )
+                        )
+                )
+        );
+    }
+
+    public static Statement fileExample() {
+        return new CompStmt(
+                new VarDeclStmt("varf", Type.STRING),
+                new CompStmt(
+                        new AssignStmt("varf", new ValueExp(new StringValue("test.in"))),
+                        new CompStmt(
+                                new OpenRFile(new VarExp("varf")),
+                                new CompStmt(
+                                        new VarDeclStmt("varc", Type.INTEGER),
+                                        new CompStmt(
+                                                new ReadFile(new VarExp("varf"), "varc"),
+                                                new CompStmt(
+                                                        new PrintStmt(new VarExp("varc")),
+                                                        new CompStmt(
+                                                                new ReadFile(new VarExp("varf"), "varc"),
+                                                                new CompStmt(
+                                                                        new PrintStmt(new VarExp("varc")),
+                                                                        new CloseRFile(new VarExp("varf"))
+                                                                )
+                                                        )
+                                                )
                                         )
                                 )
                         )

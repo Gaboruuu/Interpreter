@@ -2,10 +2,7 @@ package controller;
 
 import exception.EmptyExecutionStackException;
 import exception.MyException;
-import model.state.ArrayListOut;
-import model.state.LLExeStack;
-import model.state.MapSymTable;
-import model.state.ProgramState;
+import model.state.*;
 import model.statement.Statement;
 import repo.Repository;
 
@@ -17,7 +14,8 @@ public record Controller(Repository repo) {
         repo.addProgramState(new model.state.ProgramState(
                 executionStack,
                 new MapSymTable(),
-                new ArrayListOut()
+                new ArrayListOut(),
+                new MapFileTable()
         ));
     }
 
@@ -31,11 +29,14 @@ public record Controller(Repository repo) {
         return nextStatement.execute(state);
     }
 
-    private void allSteps() throws MyException {
+    public void allSteps() throws MyException {
         var state = repo.getCurrentState();
+
+        repo.logPrgStateExec();
 
         while (!state.executionStack().isEmpty()) {
             state = execOneStep();
+            repo.logPrgStateExec();
         }
 
     }

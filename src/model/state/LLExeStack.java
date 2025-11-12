@@ -28,6 +28,11 @@ public class LLExeStack implements  ExecutionStack {
     }
 
     @Override
+    public Iterable<Statement> topToBottom() {
+        return statements;
+    }
+
+    @Override
     public String toString() {
         return "Execution Stack: " + statements;
     }
