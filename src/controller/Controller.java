@@ -17,8 +17,7 @@ public record Controller(Repository repo) {
         repo.addProgramState(new model.state.ProgramState(
                 executionStack,
                 new MapSymTable(),
-                new ArrayListOut(),
-                new MapFileTable()
+                new ArrayListOut()
         ));
     }
 
@@ -32,14 +31,11 @@ public record Controller(Repository repo) {
         return nextStatement.execute(state);
     }
 
-    public void allSteps() throws MyException {
+    private void allSteps() throws MyException {
         var state = repo.getCurrentState();
-
-        repo.logPrgStateExec();
 
         while (!state.executionStack().isEmpty()) {
             state = execOneStep();
-            repo.logPrgStateExec();
         }
 
     }
