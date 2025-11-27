@@ -3,7 +3,7 @@ package model.statement;
 import exception.MyException;
 import model.expression.Expression;
 import model.state.ProgramState;
-import model.type.Type;
+import model.type.BoolType;
 import model.value.BoolValue;
 import model.value.Value;
 
@@ -11,8 +11,9 @@ public record IfStmt(Expression condition, Statement thenStatement, Statement el
 
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
-        Value value = condition.evaluate(state.symbolTable());
-        if (value.getType() != Type.BOOLEAN) {
+        var heap = state.heapTable();
+        Value value = condition.evaluate(state.symbolTable(), heap);
+        if (!(value.getType() instanceof BoolType)) {
             throw new MyException("Condition expression is not of boolean type.");
         }
 

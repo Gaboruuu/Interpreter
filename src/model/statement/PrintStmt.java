@@ -7,7 +7,8 @@ import model.state.ProgramState;
 public record PrintStmt(Expression expression) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
-        state.out().add(expression.evaluate(state.symbolTable()));
+        var heap = state.heapTable();
+        state.out().add(expression.evaluate(state.symbolTable(), heap));
         return state;
     }
 

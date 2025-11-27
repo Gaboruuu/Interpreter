@@ -2,6 +2,7 @@ package model.expression;
 
 import exception.DivisionByZeroException;
 import exception.MyException;
+import model.state.HeapTable;
 import model.state.SymbolTable;
 import model.value.IntValue;
 import model.value.Value;
@@ -13,9 +14,9 @@ public record ArithmeticExp(Expression left, Expression right, char operator) im
     }
 
     @Override
-    public Value evaluate(SymbolTable symbolTable) throws MyException {
-        Value leftValue = left.evaluate(symbolTable);
-        Value rightValue = right.evaluate(symbolTable);
+    public Value evaluate(SymbolTable symbolTable, HeapTable heapTable) throws MyException {
+        Value leftValue = left.evaluate(symbolTable, heapTable);
+        Value rightValue = right.evaluate(symbolTable, heapTable);
         if (!(leftValue instanceof IntValue(int leftInt) && rightValue instanceof IntValue(int rightInt))) {
             throw new MyException("ArithmeticExpression: both operands must be integers");
         }

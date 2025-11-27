@@ -10,10 +10,11 @@ import view.TextMenu;
 
 public class Interpreter {
     public static void main(String[] args) {
-        Statement ex1 = Examples.example1();
-        Statement ex2 = Examples.example2();
-        Statement ex3 = Examples.example3();
-        Statement ex4 = Examples.fileExample();
+        Statement ex1 = Examples.hexample1();   // heap alloc + refs
+        Statement ex2 = Examples.hexample2();   // readHeap
+        Statement ex3 = Examples.hexample3();   // writeHeap
+        Statement ex4 = Examples.hexample4();   // GC example
+
 
         Repository repo1 = new ArrayRepo("log1.txt");
         Controller ctr1 = new Controller(repo1);

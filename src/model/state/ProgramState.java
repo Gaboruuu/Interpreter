@@ -2,7 +2,7 @@ package model.state;
 
 import model.value.Value;
 
-public record ProgramState(ExecutionStack executionStack, SymbolTable symbolTable, Out out, FileTable fileTable) {
+public record ProgramState(ExecutionStack executionStack, SymbolTable symbolTable, Out out, FileTable fileTable, HeapTable heapTable) {
     public String toLogString() {
         StringBuilder sb = new StringBuilder();
 

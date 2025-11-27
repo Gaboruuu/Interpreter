@@ -2,6 +2,7 @@
 package model.expression;
 
 import exception.MyException;
+import model.state.HeapTable;
 import model.state.SymbolTable;
 import model.value.BoolValue;
 import model.value.IntValue;
@@ -16,9 +17,9 @@ public record RelationalExp(Expression left, Expression right, String operator)
     }
 
     @Override
-    public Value evaluate(SymbolTable symbolTable) throws MyException {
-        Value leftValue = left.evaluate(symbolTable);
-        Value rightValue = right.evaluate(symbolTable);
+    public Value evaluate(SymbolTable symbolTable, HeapTable heapTable) throws MyException {
+        Value leftValue = left.evaluate(symbolTable, heapTable);
+        Value rightValue = right.evaluate(symbolTable, heapTable);
 
         if (!(leftValue instanceof IntValue(int value) &&
                 rightValue instanceof IntValue(int value1))) {

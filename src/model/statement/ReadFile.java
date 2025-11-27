@@ -3,6 +3,8 @@ package model.statement;
 import exception.MyException;
 import model.expression.Expression;
 import model.state.ProgramState;
+import model.type.IntType;
+import model.type.StringType;
 import model.type.Type;
 import model.value.StringValue;
 import model.value.Value;
@@ -14,6 +16,7 @@ public record ReadFile(Expression expression, String variableName) implements St
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
         var symbolTable = state.symbolTable();
+        var heap = state.heapTable();
 
         if (!symbolTable.isDefined(variableName))
         {
@@ -27,12 +30,12 @@ public record ReadFile(Expression expression, String variableName) implements St
             throw new MyException("ReadFile: " + e.getMessage());
         }
 
-        if (varType != Type.INTEGER) {
+        if (!(varType instanceof  IntType)) {
             throw new MyException("ReadFile: Variable " + variableName + " is not of type integer.");
         }
 
-        Value value = expression.evaluate(symbolTable);
-        if (value.getType() != Type.STRING) {
+        Value value = expression.evaluate(symbolTable, heap);
+        if (!(value.getType() instanceof StringType)) {
             throw new MyException("ReadFile: Expression does not evaluate to a string.");
         }
 

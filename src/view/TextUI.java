@@ -19,9 +19,10 @@ public record TextUI (Controller controller) implements View {
         String line = sc.nextLine().trim();
         Statement st;
         switch (line) {
-            case "1" -> st = Examples.example1();
-            case "2" -> st = Examples.example2();
-            case "3" -> st = Examples.example3();
+            case "1" -> st = Examples.hexample1();
+            case "2" -> st = Examples.hexample2();
+            case "3" -> st = Examples.hexample3();
+            case "4" -> st = Examples.hexample4();
             case "0" -> {
                 System.out.println("Returning to main menu.");
                 return;

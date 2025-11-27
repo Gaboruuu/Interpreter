@@ -12,7 +12,8 @@ public record AssignStmt(String variableName, Expression expression) implements 
 
     @Override
     public ProgramState execute(ProgramState state) throws  MyException {
-        var value = expression.evaluate(state.symbolTable());
+        var heapTable = state.heapTable();
+        var value = expression.evaluate(state.symbolTable(), heapTable);
         var expressionType = value.getType();
         var variableType = state.symbolTable().getVariableType(variableName);
         if (expressionType != variableType) {

@@ -3,7 +3,7 @@ package model.statement;
 import exception.MyException;
 import model.expression.Expression;
 import model.state.ProgramState;
-import model.type.Type;
+import model.type.StringType;
 import model.value.StringValue;
 import model.value.Value;
 
@@ -21,9 +21,10 @@ public record CloseRFile(Expression expression) implements Statement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
         var symbolTable = programState.symbolTable();
-        Value value = expression.evaluate(symbolTable);
+        var heap = programState.heapTable();
+        Value value = expression.evaluate(symbolTable, heap);
 
-        if (value.getType() != Type.STRING) {
+        if (!(value.getType() instanceof StringType)) {
             throw new MyException("closeRFile: expression is not of type string");
         }
 

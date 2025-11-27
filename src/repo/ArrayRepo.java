@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ArrayRepo implements Repository {
     private final List<ProgramState> programStates = new ArrayList<>();
-    private String logFilePath;
+    private final String logFilePath;
 
 
     public ArrayRepo(String logFilePath) {

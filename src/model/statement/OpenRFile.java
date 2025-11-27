@@ -4,6 +4,7 @@ import exception.MyException;
 import model.expression.Expression;
 import model.state.FileTable;
 import model.state.ProgramState;
+import model.type.StringType;
 import model.value.StringValue;
 import model.value.Value;
 
@@ -11,16 +12,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static model.type.Type.STRING;
 
 public record OpenRFile(Expression expression) implements Statement{
 
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
         var symbolTable = state.symbolTable();
-        Value value = expression.evaluate(symbolTable);
+        var heap = state.heapTable();
+        Value value = expression.evaluate(symbolTable, heap);
 
-        if (value.getType() != STRING) {
+        if (!(value.getType() instanceof StringType)) {
             throw new MyException("openRFile: expression is not of type string");
         }
 
