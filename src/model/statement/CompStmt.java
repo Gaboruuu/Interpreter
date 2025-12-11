@@ -1,7 +1,10 @@
 package model.statement;
 
+import exception.MyException;
 import model.state.ExecutionStack;
+import model.state.MyIDictionary;
 import model.state.ProgramState;
+import model.type.Type;
 
 public record CompStmt(Statement first, Statement second) implements Statement {
 
@@ -16,5 +19,9 @@ public record CompStmt(Statement first, Statement second) implements Statement {
     @Override
     public String toString() {
         return "(" + first.toString() + "; " + second.toString() + ")";
+    }
+
+    public MyIDictionary<String, Type> typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        return second.typecheck(first.typecheck(typeEnv));
     }
 }

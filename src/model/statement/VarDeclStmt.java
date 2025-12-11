@@ -1,5 +1,7 @@
 package model.statement;
 
+import exception.MyException;
+import model.state.MyIDictionary;
 import model.state.ProgramState;
 import model.type.Type;
 
@@ -14,5 +16,11 @@ public record VarDeclStmt(String variableName, Type type) implements Statement {
     @Override
     public String toString() {
         return type.toString() + " " + variableName;
+    }
+
+    @Override
+    public MyIDictionary<String, Type> typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        typeEnv.put(variableName, type);
+        return typeEnv;
     }
 }

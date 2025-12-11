@@ -2,8 +2,10 @@ package model.statement;
 
 import exception.MyException;
 import model.expression.Expression;
+import model.state.MyIDictionary;
 import model.state.ProgramState;
 import model.type.StringType;
+import model.type.Type;
 import model.value.StringValue;
 import model.value.Value;
 
@@ -45,5 +47,15 @@ public record CloseRFile(Expression expression) implements Statement {
 
         fileTable.remove(fileName);
         return programState;
+    }
+
+    @Override
+    public MyIDictionary<String, Type> typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typeExp = expression.typecheck(typeEnv);
+        if (typeExp.equals(new StringType())) {
+            return typeEnv;
+        } else {
+            throw new MyException("CloseRFile: Expresia trebuie sa fie StringType!");
+        }
     }
 }

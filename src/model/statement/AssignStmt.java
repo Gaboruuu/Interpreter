@@ -2,7 +2,9 @@ package model.statement;
 
 import exception.MyException;
 import model.expression.Expression;
+import model.state.MyIDictionary;
 import model.state.ProgramState;
+import model.type.Type;
 
 public record AssignStmt(String variableName, Expression expression) implements Statement {
     @Override
@@ -21,5 +23,15 @@ public record AssignStmt(String variableName, Expression expression) implements 
         }
         state.symbolTable().setValue(variableName, value);
         return state;
+    }
+
+    public MyIDictionary<String, Type> typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typevar = typeEnv.lookup(variableName);
+        Type typexp = expression.typecheck(typeEnv);
+
+        if (typevar.equals(typexp))
+            return typeEnv;
+        else
+            throw new MyException("Assignment: partea dreapta si partea stanga au tipuri diferite");
     }
 }

@@ -2,6 +2,7 @@ package model.statement;
 
 import exception.MyException;
 import model.expression.Expression;
+import model.state.MyIDictionary;
 import model.state.ProgramState;
 import model.type.RefType;
 import model.type.Type;
@@ -60,6 +61,15 @@ public record NewStmt(String varName, Expression expression) implements Statemen
         symbolTable.setValue(varName, new RefValue(newAddress, refValue.getLocationType()));
 
         return state;
+    }
+
+    public MyIDictionary<String, Type> typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typevar = typeEnv.lookup(varName);
+        Type typexp = expression.typecheck(typeEnv);
+        if (typevar.equals(new RefType(typexp)))
+            return typeEnv;
+        else
+            throw new MyException("NEW stmt: partea dreapta si stanga au tipuri diferite");
     }
 
 }

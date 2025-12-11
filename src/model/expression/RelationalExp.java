@@ -3,7 +3,11 @@ package model.expression;
 
 import exception.MyException;
 import model.state.HeapTable;
+import model.state.MyIDictionary;
 import model.state.SymbolTable;
+import model.type.BoolType;
+import model.type.IntType;
+import model.type.Type;
 import model.value.BoolValue;
 import model.value.IntValue;
 import model.value.Value;
@@ -35,5 +39,21 @@ public record RelationalExp(Expression left, Expression right, String operator)
             case ">=" -> new BoolValue(value >= value1);
             default   -> throw new MyException("RelationalExpression: unknown operator " + operator);
         };
+    }
+
+    public Type typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typ1, typ2;
+        typ1 = left.typecheck(typeEnv);
+        typ2 = right.typecheck(typeEnv);
+
+        if (typ1.equals(new IntType())) {
+            if (typ2.equals(new IntType())) {
+                return new BoolType(); // Relaționalele returnează Bool
+            } else {
+                throw new MyException("Operandul 2 nu este intreg");
+            }
+        } else {
+            throw new MyException("Operandul 1 nu este intreg");
+        }
     }
 }

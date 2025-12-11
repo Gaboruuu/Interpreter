@@ -2,6 +2,7 @@ package model.statement;
 
 import exception.MyException;
 import model.expression.Expression;
+import model.state.MyIDictionary;
 import model.state.ProgramState;
 import model.type.IntType;
 import model.type.StringType;
@@ -66,5 +67,21 @@ public record ReadFile(Expression expression, String variableName) implements St
     @Override
     public String toString() {
         return "ReadFile(" + expression.toString() + ", " + variableName + ")";
+    }
+
+    @Override
+    public MyIDictionary<String, Type> typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typeExp = expression.typecheck(typeEnv);
+        Type typeVar = typeEnv.lookup(variableName);
+
+        if (!typeExp.equals(new StringType())) {
+            throw new MyException("ReadFile: Numele fisierului trebuie sa fie StringType!");
+        }
+
+        if (!typeVar.equals(new IntType())) {
+            throw new MyException("ReadFile: Variabila in care citim trebuie sa fie IntType!");
+        }
+
+        return typeEnv;
     }
 }

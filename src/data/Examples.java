@@ -1,15 +1,13 @@
 package data;
 
 import model.expression.ArithmeticExp;
+import model.expression.ReadHeapExp;
 import model.expression.ValueExp;
 import model.expression.VarExp;
 import model.statement.*;
 import model.type.IntType;
 import model.type.RefType;
-import model.type.Type;
-import model.value.BoolValue;
 import model.value.IntValue;
-import model.value.StringValue;
 
 public class Examples {
     private Examples() {}
@@ -138,11 +136,11 @@ public class Examples {
                                 new CompStmt(
                                         new NewStmt("a", new VarExp("v")),
                                         new CompStmt(
-                                                new PrintStmt(new ReadHeapStmt(new VarExp("v"))),
+                                                new PrintStmt(new ReadHeapExp(new VarExp("v"))),
                                                 new PrintStmt(
                                                         new ArithmeticExp(
-                                                                new ReadHeapStmt(
-                                                                        new ReadHeapStmt(new VarExp("a"))
+                                                                new ReadHeapExp(
+                                                                        new ReadHeapExp(new VarExp("a"))
                                                                 ),
                                                                 new ValueExp(new IntValue(5)),
                                                                 '+'
@@ -164,12 +162,12 @@ public class Examples {
                 new CompStmt(
                         new NewStmt("v", new ValueExp(new IntValue(20))),
                         new CompStmt(
-                                new PrintStmt(new ReadHeapStmt(new VarExp("v"))),
+                                new PrintStmt(new ReadHeapExp(new VarExp("v"))),
                                 new CompStmt(
                                         new WriteHeapStmt("v", new ValueExp(new IntValue(30))),
                                         new PrintStmt(
                                                 new ArithmeticExp(
-                                                        new ReadHeapStmt(new VarExp("v")),
+                                                        new ReadHeapExp(new VarExp("v")),
                                                         new ValueExp(new IntValue(5)),
                                                         '+'
                                                 )
@@ -195,8 +193,8 @@ public class Examples {
                                         new CompStmt(
                                                 new NewStmt("v", new ValueExp(new IntValue(30))),
                                                 new PrintStmt(
-                                                        new ReadHeapStmt(
-                                                                new ReadHeapStmt(new VarExp("a"))
+                                                        new ReadHeapExp(
+                                                                new ReadHeapExp(new VarExp("a"))
                                                         )
                                                 )
                                         )

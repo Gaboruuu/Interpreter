@@ -3,7 +3,10 @@ package model.expression;
 import exception.DivisionByZeroException;
 import exception.MyException;
 import model.state.HeapTable;
+import model.state.MyIDictionary;
 import model.state.SymbolTable;
+import model.type.IntType;
+import model.type.Type;
 import model.value.IntValue;
 import model.value.Value;
 
@@ -34,5 +37,21 @@ public record ArithmeticExp(Expression left, Expression right, char operator) im
             throw new DivisionByZeroException("ArithmeticExpression: division by zero");
         }
         return new IntValue(leftInt / rightInt);
+    }
+
+    public Type typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typ1, typ2;
+        typ1 = left.typecheck(typeEnv);
+        typ2 = right.typecheck(typeEnv);
+
+        if (typ1.equals(new IntType())) {
+            if (typ2.equals(new IntType())) {
+                return new IntType();
+            } else {
+                throw new MyException("Operandul 2 nu este intreg");
+            }
+        } else {
+            throw new MyException("Operandul 1 nu este intreg");
+        }
     }
 }

@@ -1,13 +1,15 @@
-package model.statement;
+package model.expression;
 
 import exception.MyException;
-import model.expression.Expression;
 import model.state.HeapTable;
+import model.state.MyIDictionary;
 import model.state.SymbolTable;
+import model.type.RefType;
+import model.type.Type;
 import model.value.RefValue;
 import model.value.Value;
 
-public record ReadHeapStmt(Expression expression) implements Expression {
+public record ReadHeapExp(Expression expression) implements Expression {
 
     @Override
     public Value evaluate(SymbolTable symbolTable, HeapTable heapTable) throws MyException {
@@ -27,5 +29,14 @@ public record ReadHeapStmt(Expression expression) implements Expression {
     @Override
     public String toString() {
         return "readHeap(" + expression + ")";
+    }
+
+    public Type typecheck(MyIDictionary<String, Type> typeEnv) throws MyException {
+        Type typ = expression.typecheck(typeEnv);
+        if (typ instanceof RefType reft) {
+            return reft.getInner();
+        } else {
+            throw new MyException("Argumentul RH nu este de tip RefType");
+        }
     }
 }
