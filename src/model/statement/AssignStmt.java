@@ -18,7 +18,7 @@ public record AssignStmt(String variableName, Expression expression) implements 
         var value = expression.evaluate(state.symbolTable(), heapTable);
         var expressionType = value.getType();
         var variableType = state.symbolTable().getVariableType(variableName);
-        if (expressionType != variableType) {
+        if (!expressionType.equals(variableType)) {
             throw new MyException("Type mismatch: cannot assign " + expressionType + " to variable of type " + variableType);
         }
         state.symbolTable().setValue(variableName, value);

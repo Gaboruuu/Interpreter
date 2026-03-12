@@ -21,44 +21,24 @@ public record NewStmt(String varName, Expression expression) implements Statemen
         var heapTable = state.heapTable();
 
         if (!symbolTable.isDefined(varName)) {
-            throw new RuntimeException("Variable " + varName + " is not defined.");
+            throw new MyException("new: variable " + varName + " is not defined.");
         }
 
-        Type varType;
-
-        try {
-            varType = symbolTable.getVariableType(varName);
-        } catch (Exception e) {
-            throw new RuntimeException("Error looking up variable " + varName + ": " + e.getMessage());
-        }
-
+        Type varType = symbolTable.getVariableType(varName);
         if (!(varType instanceof RefType refType)) {
-            throw new MyException("ReadFile: Variable " + varName + " is not a reference.");
+            throw new MyException("new: variable " + varName + " is not of RefType.");
         }
 
-        Value currValue = symbolTable.getVariableValue(varName);
-        if (!(currValue instanceof RefValue refValue)) {
-            throw new MyException("ReadFile: Variable " + varName + " is not a reference.");
-        }
-
-        Value evaluated;
-
-        try {
-            evaluated = expression.evaluate(symbolTable, heapTable);
-        } catch (Exception e) {
-            throw new MyException("Error evaluating expression: " + e.getMessage());
-        }
-
-        if (!evaluated.getType().equals(refValue.getLocationType())) {
+        Value evaluated = expression.evaluate(symbolTable, heapTable);
+        if (!evaluated.getType().equals(refType.getInner())) {
             throw new MyException(
-                    "New: Type mismatch. Variable " + varName +
-                            " points to locations of type " + refValue.getLocationType() +
-                            " but expression has type " + evaluated.getType() + "."
+                    "new: type mismatch. Variable " + varName + " has type " + varType +
+                            " but expression has type " + evaluated.getType()
             );
         }
 
         int newAddress = heapTable.allocate(evaluated);
-        symbolTable.setValue(varName, new RefValue(newAddress, refValue.getLocationType()));
+        symbolTable.setValue(varName, new RefValue(newAddress, refType.getInner()));
 
         return state;
     }

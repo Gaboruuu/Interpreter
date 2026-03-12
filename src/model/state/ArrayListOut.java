@@ -9,7 +9,7 @@ public class ArrayListOut implements Out {
     private final List<Value> values = new ArrayList<Value>();
 
     @Override
-    public void add(Value value) {
+    public synchronized void add(Value value) {
         values.add(value);
     }
 
@@ -19,7 +19,7 @@ public class ArrayListOut implements Out {
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return values.toString();
     }
 }

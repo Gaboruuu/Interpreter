@@ -14,4 +14,5 @@ public interface SymbolTable {
     void setValue(String variableName, Value value) throws UndefinedVariableException;
     boolean isDefined(String variableName);
     Set<Map.Entry<String, Value>> entries();
+    MapSymTable deepCopy();
 }

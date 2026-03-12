@@ -20,9 +20,14 @@ public record ArithmeticExp(Expression left, Expression right, char operator) im
     public Value evaluate(SymbolTable symbolTable, HeapTable heapTable) throws MyException {
         Value leftValue = left.evaluate(symbolTable, heapTable);
         Value rightValue = right.evaluate(symbolTable, heapTable);
-        if (!(leftValue instanceof IntValue(int leftInt) && rightValue instanceof IntValue(int rightInt))) {
+
+        if (!(leftValue instanceof IntValue) || !(rightValue instanceof IntValue)) {
             throw new MyException("ArithmeticExpression: both operands must be integers");
         }
+
+        int leftInt = ((IntValue) leftValue).value();
+        int rightInt = ((IntValue) rightValue).value();
+
         return switch (operator) {
             case '+' -> new IntValue(leftInt + rightInt);
             case '-' -> new IntValue(leftInt - rightInt);

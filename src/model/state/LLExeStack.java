@@ -4,18 +4,17 @@ import exception.EmptyExecutionStackException;
 import model.statement.Statement;
 
 import java.util.LinkedList;
-import java.util.List;
 
-public class LLExeStack implements  ExecutionStack {
-    private final List<Statement> statements = new LinkedList<>();
+public class LLExeStack implements ExecutionStack {
+    private final LinkedList<Statement> statements = new LinkedList<>();
 
     @Override
-    public void push(Statement statement) {
-        statements.addFirst( statement);
+    public synchronized void push(Statement statement) {
+        statements.addFirst(statement);
     }
 
     @Override
-    public Statement pop() throws EmptyExecutionStackException {
+    public synchronized Statement pop() throws EmptyExecutionStackException {
         if (statements.isEmpty()) {
             throw new EmptyExecutionStackException("Execution stack is empty");
         }
@@ -23,17 +22,18 @@ public class LLExeStack implements  ExecutionStack {
     }
 
     @Override
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return statements.isEmpty();
     }
 
     @Override
-    public Iterable<Statement> topToBottom() {
-        return statements;
+    public synchronized Iterable<Statement> topToBottom() {
+        // return a snapshot to avoid concurrent modification while iterating
+        return new LinkedList<>(statements);
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return "Execution Stack: " + statements;
     }
 }

@@ -60,22 +60,23 @@ public record TextUI (Controller controller) implements View {
 
     private void executeProgram() {
         try {
-            var state = controller.repo().getCurrentState();
-            if (state == null) {
-                System.out.println("No program loaded.");
-                return;
-            }
-            while (!state.executionStack().isEmpty()) {
-                controller.execOneStep();
-                state = controller.repo().getCurrentState();
-                System.out.println("---- Intermediate State ----");
-                System.out.println(state);
-            }
+            // We no longer manually check the state here because
+            // the controller handles the list of all active threads.
+
+            System.out.println("Starting concurrent execution...");
+
+            // This method now contains the while loop, the executor,
+            // and the oneStepForAllPrg logic.
+            controller.allSteps();
+
             System.out.println("Program finished execution.");
-            System.out.println("Final state:");
-            System.out.println(controller.repo().getCurrentState());
+
+            // To see the final output, you can print the 'Out' list from
+            // any of the states or the log file.
         } catch (MyException e) {
             System.out.println("Execution error: " + e.getMessage());
+            // Clean up thread pool if an error occurs
+            Thread.currentThread().interrupt();
         }
     }
 

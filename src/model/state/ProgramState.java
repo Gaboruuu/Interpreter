@@ -1,10 +1,22 @@
 package model.state;
 
+import exception.EmptyExecutionStackException;
+import exception.MyException;
+import model.statement.Statement;
 import model.value.Value;
 
-public record ProgramState(ExecutionStack executionStack, SymbolTable symbolTable, Out out, FileTable fileTable, HeapTable heapTable) {
+public record ProgramState(int id, ExecutionStack executionStack, SymbolTable symbolTable, Out out, FileTable fileTable, HeapTable heapTable, MyILockTable myILockTable) {
+
+    private static int nextId = 0;
+
+    public static synchronized int getNextId() {
+        return nextId++;
+    }
+
     public String toLogString() {
         StringBuilder sb = new StringBuilder();
+
+        sb.append("Thread ID: ").append(id).append("\n");
 
         sb.append("ExeStack:\n");
         for (var stmt : executionStack.topToBottom()) {
@@ -27,5 +39,18 @@ public record ProgramState(ExecutionStack executionStack, SymbolTable symbolTabl
         }
 
         return sb.toString();
+    }
+
+    public boolean isNotCompleted() {
+        return !executionStack.isEmpty();
+    }
+
+    public ProgramState oneStep() throws MyException {
+        try {
+            Statement currentStatement = executionStack.pop();
+            return currentStatement.execute(this);
+        } catch (EmptyExecutionStackException e) {
+            throw new MyException("Execution stack is empty");
+        }
     }
 }

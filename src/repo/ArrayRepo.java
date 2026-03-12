@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArrayRepo implements Repository {
-    private final List<ProgramState> programStates = new ArrayList<>();
+    private List<ProgramState> programStates = new ArrayList<>();
     private final String logFilePath;
 
 
@@ -20,12 +20,12 @@ public class ArrayRepo implements Repository {
     }
 
     @Override
-    public void addProgramState(ProgramState programState) {
+    public synchronized void addProgramState(ProgramState programState) {
         programStates.add(programState);
     }
 
     @Override
-    public ProgramState getCurrentState() {
+    public synchronized ProgramState getCurrentState() {
         if (programStates.isEmpty()) {
             throw new IllegalStateException("Repository contains no program states");
         }
@@ -33,12 +33,23 @@ public class ArrayRepo implements Repository {
     }
 
     @Override
-    public void logPrgStateExec() throws MyException {
-        var state = getCurrentState();
-        try (PrintWriter log = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
+    public synchronized void logPrgStateExec(ProgramState state) throws MyException, IOException {
+        try (PrintWriter log = new PrintWriter((new BufferedWriter(new FileWriter(logFilePath, true))))) {
             log.println(state.toLogString());
+            log.println("--------------------------------------------------");
         } catch (IOException e) {
             throw new MyException("Error writing log file: " + e.getMessage());
         }
+    }
+
+
+    @Override
+    public synchronized List<ProgramState> getProgramStates() {
+        return this.programStates;
+    }
+
+    @Override
+    public synchronized void setProgramStates(List<ProgramState> states) {
+        this.programStates = states;
     }
 }

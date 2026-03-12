@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.gui.MainWindowController" spacing="10">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+
+    <!-- Top Section: Number of Program States -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Number of Program States:" style="-fx-font-weight: bold;" />
+        <TextField fx:id="nrProgramStatesTextField" editable="false" prefWidth="100.0" />
+        <Button fx:id="runOneStepButton" text="Run One Step" onAction="#handleRunOneStep" style="-fx-font-size: 14px;" />
+    </HBox>
+
+    <!-- Last Executed Statement Info -->
+    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 5;">
+        <Label text="Last Executed:" style="-fx-font-weight: bold;" />
+        <Label fx:id="lastExecutedLabel" text="(No steps executed yet)" style="-fx-text-fill: #0066cc;" />
+    </HBox>
+
+    <Separator />
+
+    <!-- Main Content Area -->
+    <HBox VBox.vgrow="ALWAYS" spacing="10">
+        <!-- Left Panel: Heap Table and Out List -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="400">
+            <!-- Heap Table -->
+            <VBox VBox.vgrow="ALWAYS">
+                <Label text="Heap Table:" style="-fx-font-weight: bold;" />
+                <TableView fx:id="heapTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="heapAddressColumn" text="Address" prefWidth="100" />
+                        <TableColumn fx:id="heapValueColumn" text="Value" prefWidth="280" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Lock Table -->
+            <VBox VBox.vgrow="ALWAYS" prefHeight="150">
+                <Label text="Lock Table:" style="-fx-font-weight: bold;" />
+                <TableView fx:id="lockTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="lockAddressColumn" text="Address" prefWidth="120" />
+                        <TableColumn fx:id="lockOwnerColumn" text="Owner" prefWidth="160" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Out List -->
+            <VBox VBox.vgrow="ALWAYS" prefHeight="150">
+                <Label text="Output:" style="-fx-font-weight: bold;" />
+                <ListView fx:id="outListView" VBox.vgrow="ALWAYS" />
+            </VBox>
+        </VBox>
+
+        <!-- Middle Panel: File Table and Program State IDs -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="250">
+            <!-- File Table -->
+            <VBox VBox.vgrow="ALWAYS">
+                <Label text="File Table:" style="-fx-font-weight: bold;" />
+                <ListView fx:id="fileTableListView" VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <!-- Program State IDs -->
+            <VBox VBox.vgrow="ALWAYS" prefHeight="150">
+                <Label text="Program State IDs:" style="-fx-font-weight: bold;" />
+                <ListView fx:id="prgStateListView" VBox.vgrow="ALWAYS" />
+            </VBox>
+        </VBox>
+
+        <!-- Right Panel: Symbol Table and Execution Stack -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="450">
+            <!-- Symbol Table -->
+            <VBox VBox.vgrow="ALWAYS">
+                <Label text="Symbol Table:" style="-fx-font-weight: bold;" />
+                <TableView fx:id="symTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="symTableVarNameColumn" text="Variable Name" prefWidth="150" />
+                        <TableColumn fx:id="symTableValueColumn" text="Value" prefWidth="280" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Execution Stack -->
+            <VBox VBox.vgrow="ALWAYS" prefHeight="200">
+                <Label text="Execution Stack:" style="-fx-font-weight: bold;" />
+                <ListView fx:id="exeStackListView" VBox.vgrow="ALWAYS" />
+            </VBox>
+        </VBox>
+    </HBox>
+</VBox>
+

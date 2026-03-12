@@ -25,10 +25,12 @@ public record RelationalExp(Expression left, Expression right, String operator)
         Value leftValue = left.evaluate(symbolTable, heapTable);
         Value rightValue = right.evaluate(symbolTable, heapTable);
 
-        if (!(leftValue instanceof IntValue(int value) &&
-                rightValue instanceof IntValue(int value1))) {
+        if (!(leftValue instanceof IntValue) || !(rightValue instanceof IntValue)) {
             throw new MyException("RelationalExpression: both operands must be integers.");
         }
+
+        int value = ((IntValue) leftValue).value();
+        int value1 = ((IntValue) rightValue).value();
 
         return switch (operator) {
             case "<"  -> new BoolValue(value < value1);

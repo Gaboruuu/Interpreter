@@ -16,9 +16,13 @@ public record LogicExp(Expression left, Expression right, String operator) imple
         Value leftValue = left.evaluate(symbolTable, heapTable);
         Value rightValue = right.evaluate(symbolTable, heapTable);
 
-        if (!(leftValue instanceof BoolValue(boolean leftBool) && rightValue instanceof BoolValue(boolean rightBool))) {
-            throw new ArithmeticException("LogicExpression: Both operands must be boolean values.");
+        if (!(leftValue instanceof BoolValue) || !(rightValue instanceof BoolValue)) {
+            throw new MyException("LogicExpression: Both operands must be boolean values.");
         }
+
+        boolean leftBool = ((BoolValue) leftValue).value();
+        boolean rightBool = ((BoolValue) rightValue).value();
+
         return switch (operator) {
             case "&&" -> new BoolValue(leftBool && rightBool);
             case "||" -> new BoolValue(leftBool || rightBool);

@@ -59,7 +59,11 @@ public class HeapTable implements MyIHeap {
 
     @Override
     public synchronized void setContent(Map<Integer, Value> newContent) {
-        this.heap = newContent;
+        // IMPORTANT: don't replace the map reference.
+        // ProgramStates (and GUI) may share the same HeapTable instance; swapping the map
+        // can lead to some parts reading from an old snapshot.
+        heap.clear();
+        heap.putAll(newContent);
     }
 
     @Override

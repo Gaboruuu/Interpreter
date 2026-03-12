@@ -55,4 +55,12 @@ public class MapSymTable implements SymbolTable {
         return "SymbolTable" + symbolTable;
     }
 
+    @Override
+    public MapSymTable deepCopy() {
+        MapSymTable copy = new MapSymTable();
+        for (Map.Entry<String, Value> entry : this.symbolTable.entrySet()) {
+            copy.symbolTable.put(entry.getKey(), entry.getValue());
+        }
+        return copy;
+    }
 }

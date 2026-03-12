@@ -18,9 +18,11 @@ public record WhileStmt(Expression condition, Statement body) implements Stateme
 
         Value value = condition.evaluate(symTable, heap);
 
-        if (!(value instanceof BoolValue(boolean value1))) {
+        if (!(value instanceof BoolValue)) {
             throw new MyException("While: condition is not a boolean. Got: " + value);
         }
+
+        boolean value1 = ((BoolValue) value).value();
 
         if (value1) {
             stk.push(this);
@@ -41,7 +43,7 @@ public record WhileStmt(Expression condition, Statement body) implements Stateme
             body.typecheck(typeEnv.deepCopy());
             return typeEnv;
         } else {
-            throw new MyException("Conditia din WHILE nu este de tip bool");
+            throw new MyException("While: condition is not a boolean");
         }
     }
 }
