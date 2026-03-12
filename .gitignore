@@ -31,3 +31,4 @@ bin/
 
 ### Java ###
 *.class
+log_gui_*.txt
