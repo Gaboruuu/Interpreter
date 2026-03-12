@@ -19,13 +19,13 @@ This project implements an interpreter that executes programs written in a custo
 
 ## Language Features
 
-| Category | Supported |
-|---|---|
-| Types | `int`, `bool`, `string`, `Ref<T>` |
-| Expressions | Arithmetic, logical, relational, heap read, variable |
-| Statements | Variable declaration, assignment, if, while, for, fork, print, file I/O, heap write, lock/unlock |
-| Memory | Stack-allocated variables, heap-allocated references |
-| Concurrency | Fork (thread spawn), NewLock, Lock, Unlock |
+| Category    | Supported                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------------------ |
+| Types       | `int`, `bool`, `string`, `Ref<T>`                                                                |
+| Expressions | Arithmetic, logical, relational, heap read, variable                                             |
+| Statements  | Variable declaration, assignment, if, while, for, fork, print, file I/O, heap write, lock/unlock |
+| Memory      | Stack-allocated variables, heap-allocated references                                             |
+| Concurrency | Fork (thread spawn), NewLock, Lock, Unlock                                                       |
 
 ## Example Program
 
@@ -72,10 +72,12 @@ src/
 ## Getting Started
 
 ### Prerequisites
+
 - Java 17 or higher
 - JavaFX SDK
 
 ### Running
+
 1. Clone the repository
    ```bash
    git clone git@github.com:Gaboruuu/Interpreter.git
@@ -86,7 +88,7 @@ src/
 
 ## Screenshots
 
-> *(Add screenshots here)*
+> _(Add screenshots here)_
 
 ## License
 
