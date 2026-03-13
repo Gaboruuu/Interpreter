@@ -65,7 +65,7 @@ src/
 
 ## Tech Stack
 
-- **Java 17+**
+- **Java 25**
 - **JavaFX** — GUI
 - **IntelliJ IDEA** — development environment
 
@@ -73,7 +73,7 @@ src/
 
 ### Prerequisites
 
-- Java 17 or higher
+- Java 25
 - JavaFX SDK
 
 ### Running
@@ -85,10 +85,6 @@ src/
 2. Open the project in IntelliJ IDEA
 3. Add the JavaFX SDK to the project libraries
 4. Run `Interpreter.java`
-
-## Screenshots
-
-> _(Add screenshots here)_
 
 ## License
 
